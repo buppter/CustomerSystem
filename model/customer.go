@@ -25,6 +25,17 @@ func NewCustomer(id int, name string, gender string, age int, phone string, emai
 	}
 }
 
+// 编写一个工厂模式，返回一个Customer的实例
+func NewCustomer2(name string, gender string, age int, phone string, email string) Customer {
+	return Customer{
+		Name:   name,
+		Gender: gender,
+		Age:    age,
+		Phone:  phone,
+		Email:  email,
+	}
+}
+
 //返回用户信息
 func (c Customer) GetInfo() string {
 	info := fmt.Sprintf("%v\t\t%v\t\t%v\t\t%v\t\t%v\t\t%v\t", c.Id, c.Name, c.Gender, c.Age, c.Phone, c.Email)

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go_code/customer_system/model"
 	"go_code/customer_system/service"
 )
 
@@ -34,7 +35,7 @@ func (cv *customerView) mainMenu() {
 
 		switch cv.key {
 		case "1":
-			fmt.Println("添 加 客 户")
+			cv.add()
 		case "2":
 			fmt.Println("修 改 客 户")
 		case "3":
@@ -67,6 +68,54 @@ func (cv *customerView) list() {
 		fmt.Println(customers[i].GetInfo())
 	}
 	fmt.Printf("*************************客户列表完成*************************\n\n\n\n")
+}
+
+//得到用户输入，信息构建新的客户，并完成添加
+func (cv *customerView) add() {
+	fmt.Println("***************************添加客户**************************")
+	fmt.Println("姓名：")
+	name := ""
+	_, err := fmt.Scanln(&name)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("性别：")
+	gender := ""
+	_, err = fmt.Scanln(&gender)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("年龄：")
+	age := 0
+	_, err = fmt.Scanln(&age)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("电话：")
+	phone := ""
+	_, err = fmt.Scanln(&phone)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("邮箱：")
+	email := ""
+	_, err = fmt.Scanln(&email)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	//构建一个新的Customer实例
+	//注意：id号，没有让用户输入，ID是唯一的，需要系统分配
+	customer := model.NewCustomer2(name, gender, age, phone, email)
+	if cv.customerService.Add(customer) {
+		fmt.Println("***************************添加成功**************************")
+	} else {
+		fmt.Println("***************************添加失败**************************")
+	}
 }
 
 func main() {
