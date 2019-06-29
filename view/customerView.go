@@ -44,7 +44,7 @@ func (cv *customerView) mainMenu() {
 		case "4":
 			cv.list()
 		case "5":
-			cv.loop = false
+			cv.quit()
 		default:
 			fmt.Println("你的输入有误，请重新输入...")
 		}
@@ -116,6 +116,26 @@ func (cv *customerView) add() {
 		fmt.Println("***************************添加成功**************************")
 	} else {
 		fmt.Println("***************************添加失败**************************")
+	}
+}
+
+//退出软件
+func (cv *customerView) quit() {
+	fmt.Println("确认是否提出(Y/N):")
+	for {
+		_, err := fmt.Scanln(&cv.key)
+		if err != nil {
+			fmt.Println(err)
+		}
+		if cv.key == "Y" || cv.key == "y" || cv.key == "N" || cv.key == "n" {
+			break
+		}
+
+		fmt.Println("你的输入有误，确认是否提出(Y/N):")
+	}
+
+	if cv.key == "Y" || cv.key == "y" {
+		cv.loop = false
 	}
 }
 
