@@ -1,6 +1,8 @@
 package service
 
-import "go_code/customer_system/model"
+import (
+	"go_code/customer_system/model"
+)
 
 //该CustomerService，完成对Customer的操作，包括
 //增删改查
@@ -36,4 +38,32 @@ func (cs *CustomerService) Add(customer model.Customer) bool {
 	customer.Id = cs.customerNum
 	cs.customers = append(cs.customers, customer)
 	return true
+}
+
+//根据id删除客户（从切片中）
+func (cs *CustomerService) Delete(id int) bool {
+	index := cs.FindById(id)
+
+	if index == -1 {
+		//表示不存在
+		return false
+	}
+
+	//如何从切片中删除一个元素
+	cs.customers = append(cs.customers[:index], cs.customers[index+1:]...)
+	return true
+}
+
+//根据ID查找客户所在切片中对应的下标，如果不存在，返回-1
+func (cs *CustomerService) FindById(id int) int {
+	index := -1
+
+	for i := 0; i < len(cs.customers); i++ {
+		if cs.customers[i].Id == id {
+			//找到
+			index = i
+		}
+	}
+
+	return index
 }

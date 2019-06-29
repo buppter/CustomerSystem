@@ -39,7 +39,8 @@ func (cv *customerView) mainMenu() {
 		case "2":
 			fmt.Println("修 改 客 户")
 		case "3":
-			fmt.Println("删 除 客 户")
+			cv.delete()
+
 		case "4":
 			cv.list()
 		case "5":
@@ -118,6 +119,32 @@ func (cv *customerView) add() {
 	}
 }
 
+//得到用户输入的ID，删除该ID对应的客户
+func (cv *customerView) delete() {
+	fmt.Println("***************************删除客户**************************")
+	fmt.Println("请选择要删除的客户编号(输入-1退出):")
+	id := -1
+
+	_, err := fmt.Scanln(&id)
+	if err != nil {
+		fmt.Println(err)
+	} else if id == -1 {
+		return
+	}
+
+	fmt.Println("确认删除(Y/N):")
+	choice := ""
+	_, err = fmt.Scanln(&choice)
+	if choice == "Y" || choice == "y" {
+		//调用customerService的Delete方法
+		if cv.customerService.Delete(id) {
+			fmt.Println("***************************删除成功**************************")
+		} else {
+			fmt.Println("**********************删除失败，该ID号不存在********************")
+		}
+	}
+
+}
 func main() {
 	//在main函数中，创建一个customerView实例，并运行主菜单
 	customerView := customerView{
