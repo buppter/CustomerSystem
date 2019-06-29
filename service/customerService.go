@@ -54,6 +54,29 @@ func (cs *CustomerService) Delete(id int) bool {
 	return true
 }
 
+//根据ID修改客户
+func (cs *CustomerService) Update(id int, customer model.Customer) bool {
+	index := cs.FindById(id)
+
+	if index == -1 {
+		return false
+	}
+
+	cs.customers = append(append(cs.customers[:index], customer), cs.customers[index+1:]...)
+	return true
+
+}
+
+//根据ID返回客户信息
+func (cs *CustomerService) GetInfoById(id int) model.Customer {
+	index := cs.FindById(id)
+	if index != -1 {
+		return cs.customers[id]
+	}
+
+	return model.Customer{}
+}
+
 //根据ID查找客户所在切片中对应的下标，如果不存在，返回-1
 func (cs *CustomerService) FindById(id int) int {
 	index := -1

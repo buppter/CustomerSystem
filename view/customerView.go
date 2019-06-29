@@ -37,7 +37,7 @@ func (cv *customerView) mainMenu() {
 		case "1":
 			cv.add()
 		case "2":
-			fmt.Println("修 改 客 户")
+			cv.update()
 		case "3":
 			cv.delete()
 
@@ -164,6 +164,69 @@ func (cv *customerView) delete() {
 		}
 	}
 
+}
+
+//修改指定的客户信息
+func (cv *customerView) update() {
+	fmt.Println("***************************修改客户**************************")
+	fmt.Println("请选择要修改的客户编号(输入-1退出):")
+	id := -1
+
+	_, err := fmt.Scanln(&id)
+	if err != nil {
+		fmt.Println(err)
+	} else if id == -1 {
+		return
+	}
+
+	fmt.Println("确认修改(Y/N):")
+	choice := ""
+	_, err = fmt.Scanln(&choice)
+	if choice == "Y" || choice == "y" {
+
+		if cv.customerService.FindById(id) != -1 {
+			//表示所输入的ID有效
+			curCustomer := cv.customerService.GetInfoById(id)
+
+			fmt.Printf("姓名(%s):\n", curCustomer.Name)
+			name := ""
+			_, err := fmt.Scanln(&name)
+			if err != nil {
+				fmt.Println(err)
+			}
+			fmt.Printf("性别(%s):\n", curCustomer.Gender)
+			gender := ""
+			_, err = fmt.Scanln(&gender)
+			if err != nil {
+				fmt.Println(err)
+			}
+			fmt.Printf("年龄(%d):\n", curCustomer.Age)
+			age := 0
+			_, err = fmt.Scanln(&age)
+			if err != nil {
+				fmt.Println(err)
+			}
+			fmt.Printf("电话(%s):\n", curCustomer.Phone)
+			phone := ""
+			_, err = fmt.Scanln(&phone)
+			if err != nil {
+				fmt.Println(err)
+			}
+			fmt.Printf("邮箱(%s):\n", curCustomer.Email)
+			email := ""
+			_, err = fmt.Scanln(&email)
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			customer := model.NewCustomer(id, name, gender, age, phone, email)
+			if cv.customerService.Update(id, customer) {
+				fmt.Println("*************************修改客户成功************************")
+			}
+		} else {
+			fmt.Println("***********************ID号不存在**********************")
+		}
+	}
 }
 func main() {
 	//在main函数中，创建一个customerView实例，并运行主菜单
